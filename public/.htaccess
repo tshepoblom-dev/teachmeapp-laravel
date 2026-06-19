@@ -1,0 +1,36 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # ── Force HTTPS ───────────────────────────────────────────────────────────
+    # Only redirect if not already on HTTPS. The [L] stops processing here
+    # so none of the rules below run on the redirect itself.
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # ── Preserve Authorization header (shared hosts strip it) ─────────────────
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # ── Preserve X-XSRF-Token header (from your original — keeps CSRF working) 
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+
+    # ── Preserve X-Inertia header (some cPanel servers strip custom headers) ──
+    RewriteCond %{HTTP:X-Inertia} .
+    RewriteRule .* - [E=HTTP_X_INERTIA:%{HTTP:X-Inertia}]
+
+    # ── Redirect trailing slashes (from your original) ────────────────────────
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # ── Route everything to front controller ──────────────────────────────────
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+
+</IfModule>
