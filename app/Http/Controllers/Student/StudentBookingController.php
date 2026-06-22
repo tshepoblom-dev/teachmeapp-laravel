@@ -62,7 +62,7 @@ class StudentBookingController extends Controller
             ->get()
             ->map(fn ($m) => ['id' => $m->id, 'code' => $m->code, 'name' => $m->name]);
 
-        $durations = \App\Models\PlatformSetting::getValue('sessions', 'duration_options', [30, 60, 90, 120]);
+        $durations = \App\Models\PlatformSetting::getValue('sessions', 'duration_options', [60, 90, 120, 180]);
         if (is_string($durations)) {
             $durations = json_decode($durations, true);
         }

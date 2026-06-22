@@ -46,7 +46,7 @@ class BookingService
             $this->assertTutorIsBookable($tutor, $profile);
 
             // --- Guard: duration must be in allowed list ---
-            $allowedDurations = $this->settings->get('sessions', 'duration_options', [30, 60, 90, 120]);
+            $allowedDurations = $this->settings->get('sessions', 'duration_options', [60, 90, 120, 180]);
             if (! in_array((int) $data['duration_minutes'], $allowedDurations, true)) {
                 throw new RuntimeException(
                     'Invalid session duration. Allowed: ' . implode(', ', $allowedDurations) . ' minutes.'

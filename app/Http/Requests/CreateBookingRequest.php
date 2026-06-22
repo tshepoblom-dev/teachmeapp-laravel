@@ -19,7 +19,7 @@ class CreateBookingRequest extends FormRequest
             'subject'          => ['required', 'string', 'max:100'],
             'description'      => ['nullable', 'string', 'max:1000'],
             'scheduled_at'     => ['required', 'date', 'after:now'],
-            'duration_minutes' => ['required', 'integer', 'min:15', 'max:480'],
+            'duration_minutes' => ['required', 'integer', 'min:60', 'max:480'],
             'payment_method_id'=> ['nullable', 'integer', 'exists:payment_methods,id'],
 
             // Optional — when student is rescheduling an existing booking
@@ -36,7 +36,7 @@ class CreateBookingRequest extends FormRequest
         return [
             'tutor_id.exists'         => 'The selected tutor does not exist.',
             'scheduled_at.after'      => 'The session must be scheduled in the future.',
-            'duration_minutes.min'    => 'Sessions must be at least 15 minutes.',
+            'duration_minutes.min'    => 'Sessions must be at least 1 hour.',
             'duration_minutes.max'    => 'Sessions cannot exceed 8 hours.',
             'payment_method_id.exists'=> 'The selected payment method is not available.',
         ];

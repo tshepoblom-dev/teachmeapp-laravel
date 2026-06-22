@@ -325,7 +325,7 @@ const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 // ─── Duration stepper ────────────────────────────────────────────────────────
 
-const DURATION_MIN  = 30
+const DURATION_MIN  = 60
 const DURATION_MAX  = 300   // 5 hours; clamp to what availability allows anyway
 const DURATION_STEP = 30
 
@@ -589,7 +589,7 @@ const form = useForm({
     subject:            '',
     description:        '',
     scheduled_at:       '',
-    duration_minutes:   30,
+    duration_minutes:   60,
     payment_method_id:  props.payment_methods?.[0]?.id ?? null,
 })
 

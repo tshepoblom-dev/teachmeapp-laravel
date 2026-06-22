@@ -54,17 +54,27 @@
                 <div v-else class="space-y-2">
                     <div
                         v-for="s in slots" :key="s.id"
-                        class="flex items-center justify-between py-2 px-3 rounded-lg bg-gray-50"
+                        :class="[
+                            'flex items-center justify-between py-2 px-3 rounded-lg bg-gray-50',
+                            { 'opacity-50': !s.is_active }
+                        ]"
                     >
                         <div>
                             <span class="font-medium text-gray-800">{{ days[s.day_of_week] }}</span>
                             <span class="text-xs text-gray-500 ml-2">{{ s.start_time }} – {{ s.end_time }}</span>
                             <span v-if="s.is_recurring" class="ml-2 text-xs text-indigo-600">↻ weekly</span>
+                            <span v-if="!s.is_active" class="ml-2 text-xs text-amber-600">Inactive</span>
                         </div>
-                        <button
-                            @click="remove(s.id)"
-                            class="text-red-400 hover:text-red-600 text-xs"
-                        >Remove</button>
+                        <div class="flex items-center gap-3">
+                            <button
+                                @click="toggle(s.id)"
+                                class="text-indigo-400 hover:text-indigo-600 text-xs"
+                            >{{ s.is_active ? 'Deactivate' : 'Activate' }}</button>
+                            <button
+                                @click="remove(s.id)"
+                                class="text-red-400 hover:text-red-600 text-xs"
+                            >Remove</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -87,4 +97,5 @@ const form = useForm({
 
 const submit = () => form.post(route('tutor.availability.store'), { onSuccess: () => form.reset() })
 const remove = (id) => router.delete(route('tutor.availability.destroy', id))
+const toggle = (id) => router.patch(route('tutor.availability.toggle', id))
 </script>
