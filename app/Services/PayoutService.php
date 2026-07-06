@@ -168,7 +168,7 @@ class PayoutService
      */
     public function requestWithdrawal(User $tutor, array $data): PayoutTransaction
     {
-        $tutor->loadMissing('wallet');
+        $wallet = $this->walletService->getOrCreateWallet($tutor);
 
         $account = PayoutAccount::where('id', $data['payout_account_id'])
             ->where('user_id', $tutor->id)
@@ -184,9 +184,9 @@ class PayoutService
             throw new RuntimeException('Minimum payout amount is R50.00.');
         }
 
-        return DB::transaction(function () use ($tutor, $account, $amount) {
+        return DB::transaction(function () use ($tutor, $wallet, $account, $amount) {
             // Debit wallet immediately — funds are reserved on request
-            $this->walletService->debit($tutor->wallet, $amount, [
+            $this->walletService->debit($wallet, $amount, [
                 'type'        => WalletTransactionType::Payout,
                 'reference'   => $ref = 'PAY-' . strtoupper(Str::random(10)),
                 'description' => "Withdrawal request to {$account->bank_name}",
@@ -334,10 +334,11 @@ class PayoutService
         }
 
         return DB::transaction(function () use ($payout, $admin, $failureReason) {
-            $tutor = $payout->user()->with('wallet')->first();
+            $tutor  = $payout->user()->first();
+            $wallet = $this->walletService->getOrCreateWallet($tutor);
 
             // Refund the tutor's wallet
-            $this->walletService->credit($tutor->wallet, (float) $payout->amount, [
+            $this->walletService->credit($wallet, (float) $payout->amount, [
                 'type'        => WalletTransactionType::Refund,
                 'reference'   => $payout->reference,
                 'description' => "Payout failed — refunded {$payout->reference}",

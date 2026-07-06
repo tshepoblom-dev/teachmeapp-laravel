@@ -29,6 +29,10 @@ class UpdateProfileRequest extends FormRequest
             'teaching_specializations.*' => ['string', 'max:100'],
             'education_level'          => ['sometimes', 'nullable', 'string', 'max:100'],
             'years_of_experience'      => ['sometimes', 'nullable', 'integer', 'min:0', 'max:60'],
+            'institution_ids'          => ['sometimes', 'nullable', 'array'],
+            'institution_ids.*'        => ['integer', 'exists:institutions,id'],
+            'subject_ids'              => ['sometimes', 'nullable', 'array'],
+            'subject_ids.*'            => ['integer', 'exists:subjects,id'],
         ];
     }
 }

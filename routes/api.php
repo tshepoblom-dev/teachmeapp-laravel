@@ -2,14 +2,24 @@
 
 use App\Http\Controllers\Api\Admin\GatewayConfigController;
 use App\Http\Controllers\Api\Auth\EmailVerificationController;
+use App\Http\Controllers\Api\Invoice\InvoiceController as ApiInvoiceController;
+use App\Http\Controllers\Api\Notification\NotificationController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
 use App\Http\Controllers\Api\Auth\PasswordResetController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Payment\PaymentController;
 use App\Http\Controllers\Api\Payment\WebhookController;
+use App\Http\Controllers\Api\Payout\PayoutController;
+use App\Http\Controllers\Api\Reference\ReferenceDataController;
+use App\Http\Controllers\Api\Report\ReportController as ApiReportController;
+use App\Http\Controllers\Api\Review\ReviewController as ApiReviewController;
+use App\Http\Controllers\Api\Tutor\AvailabilityController as ApiTutorAvailabilityController;
+use App\Http\Controllers\Api\Tutor\DiscoverController;
 use App\Http\Controllers\Api\User\ProfileController;
+use App\Http\Controllers\Api\Wallet\WalletController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\InvoiceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\ChatController;
@@ -44,7 +54,16 @@ Route::middleware(['auth:sanctum', 'check.account.status'])->group(function () {
 
     Route::post('fcm-token',    [FcmTokenController::class, 'store']);
     Route::delete('fcm-token',  [FcmTokenController::class, 'destroy']);
-    
+
+    // Mobile parity: notifications list + mark read
+    Route::get('notifications', [NotificationController::class, 'index']);
+    Route::post('notifications/{id}/read', [NotificationController::class, 'markRead']);
+    Route::post('notifications/read-all', [NotificationController::class, 'markAllRead']);
+
+    // Mobile parity: reference data (institutions/subjects dropdowns)
+    Route::get('institutions', [ReferenceDataController::class, 'institutions']);
+    Route::get('subjects', [ReferenceDataController::class, 'subjects']);
+
     Route::prefix('email')->name('email.')->group(function () {
         Route::get('verify/status', [EmailVerificationController::class, 'status'])->name('status');
         Route::post('verification-notification', [EmailVerificationController::class, 'send'])->middleware('throttle:6,1')->name('send');
@@ -53,6 +72,7 @@ Route::middleware(['auth:sanctum', 'check.account.status'])->group(function () {
 
     Route::get('user', [ProfileController::class, 'me'])->name('user.me');
     Route::put('user/profile', [ProfileController::class, 'update'])->name('user.profile.update');
+    Route::post('user/profile/avatar', [ProfileController::class, 'avatar'])->name('user.profile.avatar');
     Route::put('user/password', [ProfileController::class, 'changePassword'])->name('user.password.change');
 
     // Phase 3 — Payments
@@ -92,12 +112,36 @@ Route::middleware(['auth:sanctum', 'check.account.status'])->group(function () {
     Route::post('/bookings/{booking}/cancel', [BookingController::class, 'cancel']);
 
     // -------------------------------------------------------------------------
+    // Mobile parity: Wallet — shared by students and tutors
+    // -------------------------------------------------------------------------
+
+    Route::get('/wallet', [WalletController::class, 'index']);
+    Route::get('/wallet/transactions', [WalletController::class, 'transactions']);
+
+    // -------------------------------------------------------------------------
+    // Mobile parity: Payout accounts & payouts — student and tutor
+    // -------------------------------------------------------------------------
+
+    Route::middleware('role:student,tutor')->group(function () {
+        Route::get('/payout/accounts', [PayoutController::class, 'accounts']);
+        Route::post('/payout/accounts', [PayoutController::class, 'storeAccount']);
+        Route::post('/payout/accounts/{account}/default', [PayoutController::class, 'setDefaultAccount']);
+        Route::delete('/payout/accounts/{account}', [PayoutController::class, 'deleteAccount']);
+        Route::get('/payout/transactions', [PayoutController::class, 'transactions']);
+        Route::post('/payout/request', [PayoutController::class, 'requestPayout']);
+        Route::post('/payout/{payout}/cancel', [PayoutController::class, 'cancelPayout']);
+    });
+
+    // -------------------------------------------------------------------------
     // Student only
     // -------------------------------------------------------------------------
 
     Route::middleware('role:student')->group(function () {
         // Create a new booking request
         Route::post('/bookings', [BookingController::class, 'store']);
+
+        // Mobile parity: submit a review for a completed booking
+        Route::post('/bookings/{booking}/review', [ApiReviewController::class, 'store']);
     });
 
     // -------------------------------------------------------------------------
@@ -113,6 +157,20 @@ Route::middleware(['auth:sanctum', 'check.account.status'])->group(function () {
 
         // Decline a pending booking
         Route::post('/bookings/{booking}/decline', [BookingController::class, 'decline']);
+
+        // -------------------------------------------------------------------------
+        // Mobile parity: Tutor availability CRUD
+        // -------------------------------------------------------------------------
+
+        Route::prefix('tutor/availability')->group(function () {
+            Route::get('/', [ApiTutorAvailabilityController::class, 'index']);
+            Route::post('/', [ApiTutorAvailabilityController::class, 'store']);
+            Route::post('/bulk', [ApiTutorAvailabilityController::class, 'bulkStore']);
+            Route::post('/replace', [ApiTutorAvailabilityController::class, 'replaceAll']);
+            Route::put('/{slot}', [ApiTutorAvailabilityController::class, 'update']);
+            Route::patch('/{slot}/toggle', [ApiTutorAvailabilityController::class, 'toggle']);
+            Route::delete('/{slot}', [ApiTutorAvailabilityController::class, 'destroy']);
+        });
     });
 
     // -------------------------------------------------------------------------
@@ -124,6 +182,14 @@ Route::middleware(['auth:sanctum', 'check.account.status'])->group(function () {
 Route::get('/tutors/{tutorId}/availability', [TutorAvailabilityController::class, 'publicSlots']);
   // Tutor tier progress
     Route::get('/tutor/tier/progress', [TierController::class, 'myProgress']);
+
+    // -------------------------------------------------------------------------
+    // Mobile parity: Tutor discovery (student-facing browse/search)
+    // -------------------------------------------------------------------------
+
+    Route::get('/tutors', [DiscoverController::class, 'index']);
+    Route::get('/tutors/{tutor}/reviews', [ApiReviewController::class, 'tutorReviews']);
+    Route::get('/tutors/{user}', [DiscoverController::class, 'show']);
 
     // -------------------------------------------------------------------------
     // Admin only
@@ -184,6 +250,11 @@ Route::get('/tutors/{tutorId}/availability', [TutorAvailabilityController::class
     // Get session via booking (convenience for booking detail screen)
     Route::get('/bookings/{booking}/session', [SessionController::class, 'showByBooking']);
 
+    // Mobile parity: invoice signed-URL lookup + download
+    Route::get('/invoices/{invoice}', [ApiInvoiceController::class, 'show']);
+    Route::get('/invoices/{invoice}/download', [InvoiceController::class, 'download'])
+        ->middleware('signed')->name('api.invoices.download');
+
     // Join session — returns Agora token + channel info
     Route::post('/sessions/{session}/join', [SessionController::class, 'join']);
 
@@ -208,6 +279,9 @@ Route::get('/tutors/{tutorId}/availability', [TutorAvailabilityController::class
 
     // End session — triggers escrow release
     Route::post('/sessions/{session}/end', [SessionController::class, 'end']);
+
+    // Mobile parity: submit an in-session incident report
+    Route::post('/sessions/{session}/report', [ApiReportController::class, 'store']);
 
     // -------------------------------------------------------------------------
     // Chat

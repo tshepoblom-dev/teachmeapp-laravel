@@ -60,7 +60,18 @@
                                 {{ field.label }}
                                 <span v-if="field.required" class="text-red-500">*</span>
                             </label>
-                            <div class="relative">
+                            <div v-if="field.type === 'boolean'" class="flex items-center gap-2">
+                                <input
+                                    type="checkbox"
+                                    :id="`field-${field.key}`"
+                                    v-model="configValues[field.key]"
+                                    class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                />
+                                <label :for="`field-${field.key}`" class="text-sm text-gray-600">
+                                    {{ configValues[field.key] ? 'Enabled' : 'Disabled' }}
+                                </label>
+                            </div>
+                            <div v-else class="relative">
                                 <input
                                     v-model="configValues[field.key]"
                                     :type="field.type === 'password' ? (showFields[field.key] ? 'text' : 'password') : 'text'"
@@ -133,7 +144,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import StatusBadge from '@/Components/Admin/StatusBadge.vue'
@@ -157,12 +168,32 @@ const isSet = (key) => {
     )
 }
 
+// Boolean fields (e.g. "Sandbox Mode") have no plain-text value to leave blank — they
+// always need an explicit true/false, seeded from the schema's per-environment default.
+const applyBooleanDefaults = () => {
+    props.schema.forEach((field) => {
+        if (field.type !== 'boolean' || configValues[field.key] !== undefined) return
+        const raw = environment.value === 'production' ? field.production_default : field.sandbox_default
+        configValues[field.key] = raw === true || raw === 'true'
+    })
+}
+
+watch(environment, applyBooleanDefaults, { immediate: true })
+
 const save = () => {
     saving.value = true
 
-    const configs = Object.entries(configValues)
-        .filter(([, v]) => v && v.trim() !== '')
-        .map(([key, value]) => ({ key, value }))
+    const configs = props.schema
+        .map((field) => ({ field, value: configValues[field.key] }))
+        .filter(({ field, value }) =>
+            field.type === 'boolean'
+                ? value !== undefined
+                : typeof value === 'string' && value.trim() !== ''
+        )
+        .map(({ field, value }) => ({
+            key: field.key,
+            value: field.type === 'boolean' ? (value ? 'true' : 'false') : value,
+        }))
 
     router.post(
         route('admin.gateways.configure', props.method.id),
@@ -171,6 +202,7 @@ const save = () => {
             onFinish: () => {
                 saving.value = false
                 Object.keys(configValues).forEach(k => delete configValues[k])
+                applyBooleanDefaults()
             },
         }
     )

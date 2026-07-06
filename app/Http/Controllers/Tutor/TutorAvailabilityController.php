@@ -8,6 +8,7 @@ use App\Services\AvailabilityService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 use RuntimeException;
@@ -113,6 +114,7 @@ class TutorAvailabilityController extends Controller
      */
     public function toggle(Request $request, TutorAvailabilitySlot $slot): RedirectResponse
     {
+        $this->logOwnershipCheck('toggle', $request, $slot);
         abort_unless($slot->tutor_id === $request->user()->id, 403);
 
         $updated = $this->availabilityService->toggle($slot);
@@ -125,6 +127,7 @@ class TutorAvailabilityController extends Controller
 
     public function destroy(Request $request, TutorAvailabilitySlot $slot): RedirectResponse
     {
+        $this->logOwnershipCheck('destroy', $request, $slot);
         abort_unless($slot->tutor_id === $request->user()->id, 403);
 
         $this->availabilityService->delete($slot);
@@ -162,6 +165,24 @@ class TutorAvailabilityController extends Controller
     }
 
     // ─── Helpers ──────────────────────────────────────────────────────────────
+
+    /**
+     * TEMP diagnostic for the 403-on-ownership-check investigation. Remove once resolved.
+     */
+    private function logOwnershipCheck(string $action, Request $request, TutorAvailabilitySlot $slot): void
+    {
+        Log::error('AvailabilityOwnershipCheck', [
+            'action'          => $action,
+            'method'          => $request->method(),
+            'slot_id'         => $slot->id,
+            'slot_tutor_id'   => $slot->tutor_id,
+            'slot_tutor_type' => gettype($slot->tutor_id),
+            'auth_user_id'    => $request->user()?->id,
+            'auth_user_type'  => gettype($request->user()?->id),
+            'auth_user_email' => $request->user()?->email,
+            'session_id'      => $request->session()->getId(),
+        ]);
+    }
 
     private function rules(): array
     {

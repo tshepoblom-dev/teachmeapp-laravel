@@ -71,7 +71,7 @@ class GatewayWebController extends Controller
         ]);
 
         foreach ($request->configs as $config) {
-            if (empty($config['value'])) continue;
+            if ($config['value'] === null || $config['value'] === '') continue;
 
             \App\Models\PaymentGatewayConfiguration::updateOrCreate(
                 [

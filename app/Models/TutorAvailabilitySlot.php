@@ -13,6 +13,8 @@ class TutorAvailabilitySlot extends Model
     protected function casts(): array
     {
         return [
+            'tutor_id'     => 'integer',
+            'day_of_week'  => 'integer',
             'is_recurring' => 'boolean',
             'is_active'    => 'boolean',
             'valid_from'   => 'date',

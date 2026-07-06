@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\WalletTransactionType;
+use App\Models\User;
 use App\Models\Wallet;
 use App\Models\WalletTransaction;
 use Illuminate\Support\Facades\DB;
@@ -63,6 +64,28 @@ class WalletService
         ]);
 
         return $this->mutate($wallet, $amount, 'debit', $context);
+    }
+
+    // ── Lookup ────────────────────────────────────────────────────────────────
+
+    /**
+     * Fetch the user's wallet, creating one with zero balances if it doesn't
+     * exist yet. Wallet provisioning normally happens atomically at
+     * registration (UserObserver), but this guards every call site against
+     * pre-existing accounts that predate that safeguard.
+     */
+    public function getOrCreateWallet(User $user, bool $lockForUpdate = false): Wallet
+    {
+        $wallet = Wallet::firstOrCreate(
+            ['user_id' => $user->id],
+            ['balance' => 0.00, 'escrow_balance' => 0.00, 'currency' => 'ZAR']
+        );
+
+        if ($lockForUpdate) {
+            $wallet = Wallet::lockForUpdate()->findOrFail($wallet->id);
+        }
+
+        return $wallet;
     }
 
     // ── Internal ──────────────────────────────────────────────────────────────

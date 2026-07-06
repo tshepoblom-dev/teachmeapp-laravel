@@ -157,6 +157,15 @@ class AuthService
                 $user->profile()->update($profileData);
             }
 
+            if ($user->isTutor()) {
+                if (isset($data['institution_ids'])) {
+                    $user->profile->institutions()->sync($data['institution_ids']);
+                }
+                if (isset($data['subject_ids'])) {
+                    $user->profile->subjectRecords()->sync($data['subject_ids']);
+                }
+            }
+
             Log::info('AuthService: profile updated', [
                 'user_id'        => $user->id,
                 'user_fields'    => isset($data['name']) ? ['name'] : [],

@@ -28,13 +28,8 @@ class EscrowService
         return DB::transaction(function () use ($booking) {
 
             // Lock both wallets to prevent race conditions
-            $studentWallet = Wallet::where('user_id', $booking->student_id)
-                ->lockForUpdate()
-                ->firstOrFail();
-
-            $tutorWallet = Wallet::where('user_id', $booking->tutor_id)
-                ->lockForUpdate()
-                ->firstOrFail();
+            $studentWallet = $this->walletService->getOrCreateWallet($booking->student, lockForUpdate: true);
+            $tutorWallet   = $this->walletService->getOrCreateWallet($booking->tutor, lockForUpdate: true);
 
             if ((float) $studentWallet->balance < (float) $booking->total_amount) {
                 throw new RuntimeException(

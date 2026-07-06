@@ -72,7 +72,7 @@ class InvoiceService
             'vat_amount'     => $vatAmount,
             'total_amount'   => $total,
             'status'         => 'paid',
-            'pdf_path'       => $path,
+            'pdf_url'        => $path,
             'paid_at'        => now(),
         ]);
 
@@ -91,10 +91,10 @@ class InvoiceService
      * Issue a signed URL valid for TTL_HOURS that serves the invoice PDF.
      * The controller validates the signature before streaming the file.
      */
-    public function signedDownloadUrl(Invoice $invoice): string
+    public function signedDownloadUrl(Invoice $invoice, string $routeName = 'invoices.download'): string
     {
         return URL::signedRoute(
-            'invoices.download',
+            $routeName,
             ['invoice' => $invoice->id],
             now()->addHours(self::URL_TTL_HOURS)
         );
@@ -107,11 +107,11 @@ class InvoiceService
      */
     public function pdfContent(Invoice $invoice): string
     {
-        if (! Storage::disk(self::DISK)->exists($invoice->pdf_path)) {
-            throw new RuntimeException("Invoice PDF not found on disk: {$invoice->pdf_path}");
+        if (! Storage::disk(self::DISK)->exists($invoice->pdf_url)) {
+            throw new RuntimeException("Invoice PDF not found on disk: {$invoice->pdf_url}");
         }
 
-        return Storage::disk(self::DISK)->get($invoice->pdf_path);
+        return Storage::disk(self::DISK)->get($invoice->pdf_url);
     }
 
     // ─── Void ─────────────────────────────────────────────────────────────────

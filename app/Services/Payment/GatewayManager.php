@@ -65,6 +65,13 @@ class GatewayManager
                 return [$row->config_key => $value];
             })->all();
 
+            // Never let a missing 'sandbox' key silently fall back to sandbox mode
+            // in production — default it explicitly based on the environment that
+            // was actually loaded, rather than relying on each gateway's own fallback.
+            if (! array_key_exists('sandbox', $configArray)) {
+                $configArray['sandbox'] = $environment !== 'production' ? 'true' : 'false';
+            }
+
             $gateway->setConfig($configArray);
 
             Log::debug('GatewayManager: gateway configured', [

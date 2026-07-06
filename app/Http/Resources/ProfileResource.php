@@ -28,6 +28,16 @@ class ProfileResource extends JsonResource
             'teaching_specializations' => $this->teaching_specializations,
             'education_level'          => $this->education_level,
             'years_of_experience'      => $this->years_of_experience,
+            'institutions'             => $this->whenLoaded('institutions', fn () =>
+                $this->institutions->map(fn ($i) => [
+                    'id' => $i->id, 'name' => $i->name, 'abbreviation' => $i->abbreviation,
+                ])
+            ),
+            'subject_records'          => $this->whenLoaded('subjectRecords', fn () =>
+                $this->subjectRecords->map(fn ($s) => [
+                    'id' => $s->id, 'name' => $s->name, 'code' => $s->code,
+                ])
+            ),
 
             // Tier info (null until promoted)
             'tier' => $this->whenLoaded('tutorTier', fn () =>

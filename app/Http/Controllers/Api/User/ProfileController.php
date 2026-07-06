@@ -10,6 +10,7 @@ use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
@@ -28,7 +29,7 @@ class ProfileController extends Controller
      */
     public function me(Request $request): JsonResponse
     {
-        $user = $request->user()->load(['profile.tutorTier', 'wallet']);
+        $user = $request->user()->load(['profile.tutorTier', 'profile.institutions', 'profile.subjectRecords', 'wallet']);
 
         return $this->success(
             data: new UserResource($user),
@@ -58,8 +59,34 @@ class ProfileController extends Controller
         $user = $this->authService->updateProfile($user, $data);
 
         return $this->success(
-            data: new UserResource($user->load(['profile.tutorTier', 'wallet'])),
+            data: new UserResource($user->load(['profile.tutorTier', 'profile.institutions', 'profile.subjectRecords', 'wallet'])),
             message: 'Profile updated successfully.',
+        );
+    }
+
+    /**
+     * Upload or replace the authenticated user's avatar.
+     *
+     * POST /api/user/profile/avatar
+     */
+    public function avatar(Request $request): JsonResponse
+    {
+        $request->validate([
+            'avatar' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+        ]);
+
+        $user = $request->user();
+
+        if ($user->profile_photo_path) {
+            Storage::disk('public')->delete($user->profile_photo_path);
+        }
+
+        $path = $request->file('avatar')->store('avatars', 'public');
+        $user->forceFill(['profile_photo_path' => $path])->save();
+
+        return $this->success(
+            data: new UserResource($user->fresh()->load(['profile.tutorTier', 'profile.institutions', 'profile.subjectRecords', 'wallet'])),
+            message: 'Profile photo updated.',
         );
     }
 

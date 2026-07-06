@@ -46,7 +46,7 @@ class PaymentService
     public function initiateDeposit(User $user, float $amount, string $gatewayCode): array
     {
         $gateway = $this->gatewayManager->driver($gatewayCode);
-        $wallet  = $user->wallet ?? throw new RuntimeException('User has no wallet.');
+        $wallet  = $this->walletService->getOrCreateWallet($user);
 
         $reference = 'DEP-' . strtoupper(Str::random(12));
 
@@ -120,7 +120,7 @@ class PaymentService
         }
 
         $gateway = $this->gatewayManager->driver($gatewayCode);
-        $wallet  = $student->wallet ?? throw new RuntimeException('Student has no wallet.');
+        $wallet  = $this->walletService->getOrCreateWallet($student);
         $amount  = $booking->total_amount;
 
         // Pre-flight balance check for wallet payments
