@@ -25,14 +25,14 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\lumko\\teachmeapp-custom\\resources\\views',
+      0 => 'C:\\teachmeapp-laravel\\resources\\views',
     ),
-    'compiled' => 'C:\\lumko\\teachmeapp-custom\\storage\\framework\\views',
+    'compiled' => 'C:\\teachmeapp-laravel\\storage\\framework\\views',
   ),
   'agora' => 
   array (
-    'app_id' => 'ae8fa148d53449cb8430eb9b669708a3',
-    'app_certificate' => '57f9c4509cb5437189001ca0d191720d',
+    'app_id' => '',
+    'app_certificate' => '',
     'recording_enabled' => false,
     'recording_storage_bucket' => '',
     'recording_storage_key' => '',
@@ -40,18 +40,18 @@
   ),
   'app' => 
   array (
-    'name' => 'TeachMeApp',
+    'name' => 'Laravel',
     'env' => 'local',
     'debug' => true,
-    'url' => 'https://1183-41-114-1-134.ngrok-free.app',
-    'frontend_url' => 'https://1183-41-114-1-134.ngrok-free.app',
+    'url' => 'http://localhost',
+    'frontend_url' => 'http://localhost:8000',
     'asset_url' => NULL,
     'timezone' => 'UTC',
     'locale' => 'en',
     'fallback_locale' => 'en',
     'faker_locale' => 'en_US',
     'cipher' => 'AES-256-CBC',
-    'key' => 'base64:hf3AI9BAfdI+CJjspWPmimhq6S7/qVQrsegmsBr86zw=',
+    'key' => 'base64:CQU3TZq8lS1+bT0K+X1WhCe0yRZhHuhx59MCLxofF3k=',
     'previous_keys' => 
     array (
     ),
@@ -182,7 +182,7 @@
   ),
   'broadcasting' => 
   array (
-    'default' => 'pusher',
+    'default' => 'log',
     'connections' => 
     array (
       'reverb' => 
@@ -205,9 +205,9 @@
       'pusher' => 
       array (
         'driver' => 'pusher',
-        'key' => 'fa0f8ab3dd705c392f7e',
-        'secret' => '7d0800fd29da83660c38',
-        'app_id' => '2157996',
+        'key' => NULL,
+        'secret' => NULL,
+        'app_id' => NULL,
         'options' => 
         array (
           'cluster' => 'eu',
@@ -263,8 +263,8 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\lumko\\teachmeapp-custom\\storage\\framework/cache/data',
-        'lock_path' => 'C:\\lumko\\teachmeapp-custom\\storage\\framework/cache/data',
+        'path' => 'C:\\teachmeapp-laravel\\storage\\framework/cache/data',
+        'lock_path' => 'C:\\teachmeapp-laravel\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -297,8 +297,8 @@
       'dynamodb' => 
       array (
         'driver' => 'dynamodb',
-        'key' => NULL,
-        'secret' => NULL,
+        'key' => '',
+        'secret' => '',
         'region' => 'us-east-1',
         'table' => 'cache',
         'endpoint' => NULL,
@@ -317,7 +317,7 @@
         ),
       ),
     ),
-    'prefix' => 'teachmeapp-cache-',
+    'prefix' => 'laravel-cache-',
   ),
   'cors' => 
   array (
@@ -335,7 +335,7 @@
     ),
     'allowed_origins' => 
     array (
-      0 => 'https://1183-41-114-1-134.ngrok-free.app',
+      0 => 'http://localhost',
     ),
     'allowed_origins_patterns' => 
     array (
@@ -352,14 +352,14 @@
   ),
   'database' => 
   array (
-    'default' => 'mysql',
+    'default' => 'sqlite',
     'connections' => 
     array (
       'sqlite' => 
       array (
         'driver' => 'sqlite',
         'url' => NULL,
-        'database' => 'teach26',
+        'database' => 'C:\\teachmeapp-laravel\\database\\database.sqlite',
         'prefix' => '',
         'foreign_key_constraints' => true,
         'busy_timeout' => NULL,
@@ -373,9 +373,9 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'teach26',
+        'database' => 'laravel',
         'username' => 'root',
-        'password' => 'Blom@2023',
+        'password' => '',
         'unix_socket' => '',
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_unicode_ci',
@@ -393,9 +393,9 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'teach26',
+        'database' => 'laravel',
         'username' => 'root',
-        'password' => 'Blom@2023',
+        'password' => '',
         'unix_socket' => '',
         'charset' => 'utf8mb4',
         'collation' => 'utf8mb4_unicode_ci',
@@ -412,10 +412,10 @@
         'driver' => 'pgsql',
         'url' => NULL,
         'host' => '127.0.0.1',
-        'port' => '3306',
-        'database' => 'teach26',
+        'port' => '5432',
+        'database' => 'laravel',
         'username' => 'root',
-        'password' => 'Blom@2023',
+        'password' => '',
         'charset' => 'utf8',
         'prefix' => '',
         'prefix_indexes' => true,
@@ -426,11 +426,11 @@
       array (
         'driver' => 'sqlsrv',
         'url' => NULL,
-        'host' => '127.0.0.1',
-        'port' => '3306',
-        'database' => 'teach26',
+        'host' => 'localhost',
+        'port' => '1433',
+        'database' => 'laravel',
         'username' => 'root',
-        'password' => 'Blom@2023',
+        'password' => '',
         'charset' => 'utf8',
         'prefix' => '',
         'prefix_indexes' => true,
@@ -447,7 +447,7 @@
       'options' => 
       array (
         'cluster' => 'redis',
-        'prefix' => 'teachmeapp-database-',
+        'prefix' => 'laravel-database-',
         'persistent' => false,
       ),
       'default' => 
@@ -486,7 +486,7 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\lumko\\teachmeapp-custom\\storage\\app/private',
+        'root' => 'C:\\teachmeapp-laravel\\storage\\app/private',
         'serve' => true,
         'throw' => false,
         'report' => false,
@@ -494,19 +494,20 @@
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\lumko\\teachmeapp-custom\\storage\\app/public',
-        'url' => 'https://1183-41-114-1-134.ngrok-free.app/storage',
+        'root' => 'C:\\teachmeapp-laravel\\storage\\app/public',
+        'url' => 'http://localhost/storage',
         'visibility' => 'public',
+        'serve' => true,
         'throw' => false,
         'report' => false,
       ),
       's3' => 
       array (
         'driver' => 's3',
-        'key' => NULL,
-        'secret' => NULL,
-        'region' => NULL,
-        'bucket' => NULL,
+        'key' => '',
+        'secret' => '',
+        'region' => 'us-east-1',
+        'bucket' => '',
         'url' => NULL,
         'endpoint' => NULL,
         'use_path_style_endpoint' => false,
@@ -516,13 +517,13 @@
       'private' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\lumko\\teachmeapp-custom\\storage\\app/private',
+        'root' => 'C:\\teachmeapp-laravel\\storage\\app/private',
         'visibility' => 'private',
       ),
     ),
     'links' => 
     array (
-      'C:\\lumko\\teachmeapp-custom\\public\\storage' => 'C:\\lumko\\teachmeapp-custom\\storage\\app/public',
+      'C:\\teachmeapp-laravel\\public\\storage' => 'C:\\teachmeapp-laravel\\storage\\app/public',
     ),
   ),
   'firebase' => 
@@ -532,7 +533,7 @@
     array (
       'app' => 
       array (
-        'credentials' => 'firebase-auth.json',
+        'credentials' => NULL,
         'auth' => 
         array (
           'tenant_id' => NULL,
@@ -571,10 +572,10 @@
   ),
   'logging' => 
   array (
-    'default' => 'single',
+    'default' => 'stack',
     'deprecations' => 
     array (
-      'channel' => 'null',
+      'channel' => NULL,
       'trace' => false,
     ),
     'channels' => 
@@ -591,15 +592,15 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\lumko\\teachmeapp-custom\\storage\\logs/laravel.log',
-        'level' => 'error',
+        'path' => 'C:\\teachmeapp-laravel\\storage\\logs/laravel.log',
+        'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\lumko\\teachmeapp-custom\\storage\\logs/laravel.log',
-        'level' => 'error',
+        'path' => 'C:\\teachmeapp-laravel\\storage\\logs/laravel.log',
+        'level' => 'debug',
         'days' => 14,
         'replace_placeholders' => true,
       ),
@@ -607,15 +608,15 @@
       array (
         'driver' => 'slack',
         'url' => NULL,
-        'username' => 'TeachMeApp',
+        'username' => 'Laravel',
         'emoji' => ':boom:',
-        'level' => 'error',
+        'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'papertrail' => 
       array (
         'driver' => 'monolog',
-        'level' => 'error',
+        'level' => 'debug',
         'handler' => 'Monolog\\Handler\\SyslogUdpHandler',
         'handler_with' => 
         array (
@@ -631,7 +632,7 @@
       'stderr' => 
       array (
         'driver' => 'monolog',
-        'level' => 'error',
+        'level' => 'debug',
         'handler' => 'Monolog\\Handler\\StreamHandler',
         'handler_with' => 
         array (
@@ -646,14 +647,14 @@
       'syslog' => 
       array (
         'driver' => 'syslog',
-        'level' => 'error',
+        'level' => 'debug',
         'facility' => 8,
         'replace_placeholders' => true,
       ),
       'errorlog' => 
       array (
         'driver' => 'errorlog',
-        'level' => 'error',
+        'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'null' => 
@@ -663,13 +664,13 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\lumko\\teachmeapp-custom\\storage\\logs/laravel.log',
+        'path' => 'C:\\teachmeapp-laravel\\storage\\logs/laravel.log',
       ),
     ),
   ),
   'mail' => 
   array (
-    'default' => 'smtp',
+    'default' => 'log',
     'mailers' => 
     array (
       'smtp' => 
@@ -677,12 +678,12 @@
         'transport' => 'smtp',
         'scheme' => NULL,
         'url' => NULL,
-        'host' => 'mail.teachmeapp.co.za',
-        'port' => '465',
-        'username' => 'noreply@teachmeapp.co.za',
-        'password' => 'TeachMeApp2025',
+        'host' => '127.0.0.1',
+        'port' => '2525',
+        'username' => NULL,
+        'password' => NULL,
         'timeout' => NULL,
-        'local_domain' => '1183-41-114-1-134.ngrok-free.app',
+        'local_domain' => 'localhost',
       ),
       'ses' => 
       array (
@@ -733,15 +734,15 @@
     ),
     'from' => 
     array (
-      'address' => 'noreply@teachmeapp.co.za',
-      'name' => 'TeachMeApp',
+      'address' => 'hello@example.com',
+      'name' => 'Laravel',
     ),
     'markdown' => 
     array (
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\lumko\\teachmeapp-custom\\resources\\views/vendor/mail',
+        0 => 'C:\\teachmeapp-laravel\\resources\\views/vendor/mail',
       ),
       'extensions' => 
       array (
@@ -753,18 +754,18 @@
     'site_code' => '',
     'private_key' => '',
     'api_key' => '',
-    'sandbox' => false,
+    'sandbox' => true,
     'api_base_url' => 'https://api.ozow.com',
   ),
   'payfast' => 
   array (
-    'merchant_id' => '10011546',
-    'merchant_key' => 'ru0uwhy438i6k',
-    'passphrase' => 'Teachmeapp2024',
-    'sandbox' => false,
-    'return_url' => 'https://1183-41-114-1-134.ngrok-free.app/api/payment/callback/payfast',
-    'cancel_url' => 'https://1183-41-114-1-134.ngrok-free.app/payment/cancelled',
-    'notify_url' => 'https://1183-41-114-1-134.ngrok-free.app/api/payment/webhook/payfast',
+    'merchant_id' => '',
+    'merchant_key' => '',
+    'passphrase' => '',
+    'sandbox' => true,
+    'return_url' => 'http://localhost/api/payment/callback/payfast',
+    'cancel_url' => 'http://localhost/payment/cancelled',
+    'notify_url' => 'http://localhost/api/payment/webhook/payfast',
     'process_url_sandbox' => 'https://sandbox.payfast.co.za/eng/process',
     'process_url_production' => 'https://www.payfast.co.za/eng/process',
     'validate_url_sandbox' => 'https://sandbox.payfast.co.za/eng/query/validate',
@@ -784,7 +785,7 @@
   ),
   'queue' => 
   array (
-    'default' => 'database',
+    'default' => 'sync',
     'connections' => 
     array (
       'sync' => 
@@ -812,8 +813,8 @@
       'sqs' => 
       array (
         'driver' => 'sqs',
-        'key' => NULL,
-        'secret' => NULL,
+        'key' => '',
+        'secret' => '',
         'prefix' => 'https://sqs.us-east-1.amazonaws.com/your-account-id',
         'queue' => 'default',
         'suffix' => NULL,
@@ -849,13 +850,13 @@
     ),
     'batching' => 
     array (
-      'database' => 'mysql',
+      'database' => 'sqlite',
       'table' => 'job_batches',
     ),
     'failed' => 
     array (
       'driver' => 'database-uuids',
-      'database' => 'mysql',
+      'database' => 'sqlite',
       'table' => 'failed_jobs',
     ),
   ),
@@ -864,10 +865,11 @@
     'stateful' => 
     array (
       0 => 'localhost',
-      1 => 'localhost:8000',
+      1 => 'localhost:3000',
       2 => '127.0.0.1',
       3 => '127.0.0.1:8000',
-      4 => '1183-41-114-1-134.ngrok-free.app',
+      4 => '::1',
+      5 => 'localhost',
     ),
     'guard' => 
     array (
@@ -894,8 +896,8 @@
     ),
     'ses' => 
     array (
-      'key' => NULL,
-      'secret' => NULL,
+      'key' => '',
+      'secret' => '',
       'region' => 'us-east-1',
     ),
     'slack' => 
@@ -908,8 +910,8 @@
     ),
     'fcm' => 
     array (
-      'project_id' => 'teachme-app-d5474',
-      'credentials_file' => 'C:\\lumko\\teachmeapp-custom\\firebase-auth.json',
+      'project_id' => '',
+      'credentials_file' => 'C:\\teachmeapp-laravel\\storage\\app/firebase-auth.json',
     ),
   ),
   'session' => 
@@ -918,7 +920,7 @@
     'lifetime' => 120,
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\lumko\\teachmeapp-custom\\storage\\framework/sessions',
+    'files' => 'C:\\teachmeapp-laravel\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -927,10 +929,10 @@
       0 => 2,
       1 => 100,
     ),
-    'cookie' => 'teachmeapp-session',
+    'cookie' => 'laravel-session',
     'path' => '/',
     'domain' => NULL,
-    'secure' => false,
+    'secure' => NULL,
     'http_only' => true,
     'same_site' => 'lax',
     'partitioned' => false,
@@ -942,10 +944,10 @@
     'convert_entities' => true,
     'options' => 
     array (
-      'font_dir' => 'C:\\lumko\\teachmeapp-custom\\storage\\fonts',
-      'font_cache' => 'C:\\lumko\\teachmeapp-custom\\storage\\fonts',
-      'temp_dir' => 'C:\\Users\\tshep\\AppData\\Local\\Temp',
-      'chroot' => 'C:\\lumko\\teachmeapp-custom',
+      'font_dir' => 'C:\\teachmeapp-laravel\\storage\\fonts',
+      'font_cache' => 'C:\\teachmeapp-laravel\\storage\\fonts',
+      'temp_dir' => 'C:\\Users\\Refiloe\\AppData\\Local\\Temp',
+      'chroot' => 'C:\\teachmeapp-laravel',
       'allowed_protocols' => 
       array (
         'data://' => 
@@ -1006,7 +1008,7 @@
       'ensure_pages_exist' => false,
       'paths' => 
       array (
-        0 => 'C:\\lumko\\teachmeapp-custom\\resources\\js/pages',
+        0 => 'C:\\teachmeapp-laravel\\resources\\js/pages',
       ),
       'extensions' => 
       array (

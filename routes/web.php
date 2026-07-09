@@ -283,7 +283,7 @@ Route::middleware(['auth', 'verified', 'check.account.status', 'role:student'])
         Route::get('/dashboard', [StudentDashboardController::class, 'index'])->name('dashboard');
 
         // Discover tutors
-        Route::get('/discover',      [StudentDiscoverController::class, 'index'])  ->name('discover');
+        Route::get('/discover',     [StudentDiscoverController::class, 'index'])  ->name('discover');
         Route::get('/tutors/{user}', [StudentDiscoverController::class, 'profile'])->name('tutor.profile');
         // Institutions 
         Route::get('/institutions',  [InstitutionController::class, 'index'])  ->name('institutions.index');

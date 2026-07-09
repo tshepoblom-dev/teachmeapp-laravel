@@ -4,10 +4,7 @@
 
         <!-- ── HERO ─────────────────────────────────────────────────────── -->
         <section class="hero-section">
-            <!-- Background image overlay -->
             <div class="hero-bg-img"></div>
-
-            <!-- Floating decorative shapes -->
             <div class="hero-shapes" aria-hidden="true">
                 <div class="shape shape-1"></div>
                 <div class="shape shape-2"></div>
@@ -16,46 +13,30 @@
 
             <div class="hero-content container mx-auto px-6 lg:px-8">
                 <div class="grid lg:grid-cols-12 gap-10 items-center w-full">
-
-                    <!-- Copy -->
                     <div class="lg:col-span-7 text-white">
                         <h1 class="hero-heading fade-up">
                             Find Your Perfect<br>
                             <span class="text-yellow-300">Peer Tutor</span> Today
                         </h1>
-
                         <p class="hero-lead fade-up delay-1">
                             Connect with qualified student tutors at South African universities,
                             colleges, and TVET institutions. Get the academic support you need to excel.
                         </p>
 
-                        <!-- CTAs -->
                         <div class="flex flex-wrap items-center gap-4 mb-8 fade-up delay-2">
-                            <Link href="route('student.discover')" class="btn-cta-primary">
+                  
+                            <a href="/student/discover" class="btn-cta-primary">
                                 <svg class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 15.803 7.5 7.5 0 0016.803 15.803z"/>
                                 </svg>
                                 Find a Tutor Now
-                            </Link>
-                            <Link href="route('register')" class="btn-cta-secondary">
+                            </a>
+                            <a href="/register" class="btn-cta-secondary">
                                 Become a Tutor
-                            </Link>
+                            </a>
                         </div>
-
-                        <!-- Quick Search -->
-                         <!--
-                        <div class="fade-up delay-3">
-                            <form action="/search" method="get" class="hero-search">
-                                <svg class="search-icon" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 15.803 7.5 7.5 0 0016.803 15.803z"/>
-                                </svg>
-                                <input type="text" name="search" placeholder="Search by subject or course..." class="search-input"/>
-                                <button type="submit" class="search-btn">Search</button>
-                            </form>
-                        </div> -->
                     </div>
 
-                    <!-- Hero image -->
                     <div class="lg:col-span-5 hidden lg:flex justify-center fade-up delay-2">
                         <div class="hero-img-wrap">
                             <img :src="appImg" alt="TeachMe App" class="hero-img"/>
@@ -72,7 +53,6 @@
                     <h2 class="section-title">How It Works</h2>
                     <p class="section-subtitle">Get started with TeachMe App in three simple steps</p>
                 </div>
-
                 <div class="grid md:grid-cols-3 gap-8">
                     <div v-for="(step, i) in steps" :key="i" class="step-card">
                         <div class="step-number" :class="step.colorClass">{{ i + 1 }}</div>
@@ -117,8 +97,6 @@
         <section class="section-pad">
             <div class="container mx-auto px-6 lg:px-8">
                 <div class="grid md:grid-cols-2 gap-12 items-center">
-
-                    <!-- Features cards -->
                     <div class="grid grid-cols-1 gap-6">
                         <div v-for="(f, i) in features" :key="i" class="feature-card" :class="'feature-card--' + (i+1)">
                             <div class="feature-icon" :class="'feature-icon--' + (i+1)">
@@ -131,7 +109,6 @@
                         </div>
                     </div>
 
-                    <!-- Text -->
                     <div class="lg:ps-8">
                         <h2 class="section-title text-left after-left">Why Students Choose TeachMe App</h2>
                         <p class="section-subtitle text-left mx-0 mt-5 mb-8">
@@ -151,14 +128,14 @@
                             </div>
                         </div>
 
-                        <Link :href="route('register')"
+                        <a href="/register"
                               class="inline-flex items-center gap-2 font-bold px-8 py-4 rounded-full text-white text-sm mt-6"
                               style="background:var(--green-primary);box-shadow:0 4px 15px rgba(5,130,72,.3);">
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"/>
                             </svg>
                             Get Started Free
-                        </Link>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -166,7 +143,6 @@
 
         <!-- ── BECOME A TUTOR CTA ─────────────────────────────────────── -->
         <section class="tutor-cta-section">
-            <!-- Decorative circles -->
             <div class="tutor-cta-circle-1" aria-hidden="true"></div>
             <div class="tutor-cta-circle-2" aria-hidden="true"></div>
 
@@ -194,16 +170,15 @@
                         </p>
 
                         <div class="flex flex-wrap gap-4 justify-center lg:justify-start mb-10">
-                            <Link href="route('register')" class="btn-cta-primary">
+                            <a href="/register" class="btn-cta-primary">
                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/>
                                 </svg>
                                 Apply to Become a Tutor
-                            </Link>
+                            </a>
                             <button @click="showTutorModal = true" class="btn-cta-secondary">Learn More</button>
                         </div>
 
-                        <!-- Mini stats -->
                         <div class="grid grid-cols-2 gap-6 pt-8 border-t border-white/20 max-w-xs lg:max-w-none">
                             <div class="text-left">
                                 <p class="text-3xl font-extrabold mb-1">50% to 70%</p>
@@ -251,7 +226,6 @@
                     <h2 class="section-title">Get in Touch</h2>
                     <p class="section-subtitle">Have questions? We're here to help you succeed!</p>
                 </div>
-
                 <div class="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
                     <a v-for="c in contacts" :key="c.label"
                        :href="c.href" v-bind="c.attrs" class="contact-card group">
@@ -303,7 +277,7 @@
                     </div>
                     <div class="modal-footer">
                         <button @click="showTutorModal = false" class="modal-btn-cancel">Close</button>
-                        <Link href="/become-instructor" class="modal-btn-apply">Apply Now</Link>
+                        <a href="/register" class="modal-btn-apply">Apply Now</a>
                     </div>
                 </div>
             </div>
@@ -312,9 +286,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { Link, Head } from '@inertiajs/vue3'
 import GuestLayout from '@/Layouts/GuestLayout.vue'
+import { Head } from '@inertiajs/vue3'
+import { ref } from 'vue'
 
 const showTutorModal = ref(false)
 
@@ -351,28 +325,24 @@ const features = [
     {
         title: 'Book Instantly',
         desc: 'Find availability and confirm your session in seconds.',
-        // Calendar icon
         icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"/>',
     },
     {
         title: 'Live Video Sessions',
         desc: 'Browser-based video — no downloads, no friction.',
-        // Video camera icon
         icon: '<path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z"/>',
     },
     {
         title: 'Verified Tutors',
         desc: 'Every tutor passes academic and identity verification.',
-        // Shield check icon
         icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/>',
     },
 ]
 
-
 const benefits = [
-    { title: 'Affordable Rates',             desc: 'Peer tutoring at prices students can actually afford' },
+    { title: 'Affordable Rates', desc: 'Peer tutoring at prices students can actually afford' },
     { title: 'Same Curriculum Understanding', desc: 'Tutors who recently took the same courses you\'re struggling with' },
-    { title: 'Mobile & Web Access',           desc: 'Book and manage sessions from anywhere, anytime' },
+    { title: 'Mobile & Web Access', desc: 'Book and manage sessions from anywhere, anytime' },
 ]
 
 const contacts = [
@@ -385,7 +355,6 @@ const contacts = [
         title: 'Email Us',
         subtitle: 'Get a response within 24 hours',
         label: 'Info@teachmeapp.co.za',
-        // Envelope icon
         icon: '<path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>',
     },
     {
@@ -397,7 +366,6 @@ const contacts = [
         title: 'WhatsApp Us',
         subtitle: 'Chat with us instantly',
         label: '+27 71 336 4034',
-        // WhatsApp icon
         icon: '<path fill="white" d="M16 3C8.82 3 3 8.82 3 16c0 2.3.6 4.47 1.66 6.35L3 29l6.82-1.63A13 13 0 0016 29c7.18 0 13-5.82 13-13S23.18 3 16 3z"/><path fill="#25D366" d="M16 5C9.93 5 5 9.93 5 16c0 2.06.55 4 1.5 5.66L5 27l5.5-1.47A10.96 10.96 0 0016 27c6.07 0 11-4.93 11-11S22.07 5 16 5z"/><path fill="white" d="M22.11 19.46c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07a8.17 8.17 0 01-2.4-1.48 9 9 0 01-1.66-2.07c-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51H12.2c-.2 0-.52.07-.79.37-.27.3-1.03 1-1.03 2.46 0 1.45 1.05 2.86 1.2 3.06.15.2 2.07 3.16 5.01 4.43.7.3 1.25.48 1.67.62.7.22 1.34.19 1.84.11.56-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35z"/>',
     },
 ]
@@ -518,38 +486,6 @@ const contacts = [
     text-decoration: none;
 }
 .btn-cta-secondary:hover { background: #fff; color: #058248; }
-
-/* ── Hero Search ────────────────────────────────────────────── */
-.hero-search {
-    display: flex;
-    align-items: center;
-    max-width: 480px;
-    background: #fff;
-    border-radius: 50px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0,0,0,.15);
-}
-.search-icon { width: 18px; height: 18px; color: #9ca3af; flex-shrink: 0; margin-left: 1.2rem; }
-.search-input {
-    flex: 1;
-    border: none;
-    outline: none;
-    padding: .9rem 1rem;
-    font-size: .9rem;
-    color: #374151;
-    background: transparent;
-}
-.search-btn {
-    background: #058248;
-    color: #fff;
-    border: none;
-    padding: .85rem 1.4rem;
-    font-weight: 600;
-    font-size: .85rem;
-    cursor: pointer;
-    transition: background .2s;
-}
-.search-btn:hover { background: #046b3c; }
 
 /* ── Section commons ────────────────────────────────────────── */
 .section-pad { padding: 5rem 0; }
@@ -843,6 +779,7 @@ const contacts = [
     color: #fff;
     font-weight: 600;
     text-decoration: none;
+    display: inline-block;
 }
 
 /* ── Responsive ─────────────────────────────────────────────── */
