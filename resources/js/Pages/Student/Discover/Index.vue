@@ -145,9 +145,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { Link, router } from '@inertiajs/vue3'
 import StudentLayout from '@/Layouts/StudentLayout.vue'
+import { Link, router } from '@inertiajs/vue3'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
     tutors:       Object,

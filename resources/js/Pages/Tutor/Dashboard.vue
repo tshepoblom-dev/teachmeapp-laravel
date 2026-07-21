@@ -126,10 +126,10 @@
 </template>
 
 <script setup>
-import { Link }          from '@inertiajs/vue3'
-import TutorLayout       from '@/Layouts/TutorLayout.vue'
-import StatCard          from '@/Components/Admin/StatCard.vue'
-import { fmtDateShort }  from '@/utils/time'
+import StatCard from '@/Components/Admin/StatCard.vue'
+import TutorLayout from '@/Layouts/TutorLayout.vue'
+import { fmtDateShort } from '@/utils/time'
+import { Link } from '@inertiajs/vue3'
 
 const props = defineProps({
     stats:          Object,
