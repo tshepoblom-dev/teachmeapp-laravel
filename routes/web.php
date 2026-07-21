@@ -113,6 +113,7 @@ Route::middleware(['auth', 'verified', 'check.account.status', 'role:admin'])
             Route::post('/{user}/activate',        [UserManagementController::class, 'activate'])            ->name('activate');
             Route::post('/{user}/update-password', [UserManagementController::class, 'updatePassword'])      ->name('update-password');
             Route::post('/{user}/send-reset-link', [UserManagementController::class, 'sendPasswordResetLink'])->name('send-reset-link');
+            Route::delete('/{user}',                [UserManagementController::class, 'destroy'])                ->name('destroy');
         });
     // Institutions
         Route::prefix('institutions')->name('institutions.')->group(function () {

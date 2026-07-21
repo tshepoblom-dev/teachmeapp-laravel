@@ -132,8 +132,9 @@ class TutorBookingController extends Controller
             'total'        => (float) $b->total_amount,
             'status'       => $b->status->value,
             'student'      => $b->relationLoaded('student') ? [
-                'id'   => $b->student->id,
-                'name' => $b->student->name,
+                'id'     => $b->student->id,
+                'name'   => $b->student->name,
+                'avatar' => $b->student->profile_photo_url,
             ] : null,
             'session_id'   => $b->session?->id,
         ];

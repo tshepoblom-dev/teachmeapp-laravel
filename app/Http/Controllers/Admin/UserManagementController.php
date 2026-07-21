@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\UserDeletionService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,6 +18,10 @@ use Inertia\Response;
 
 class UserManagementController extends Controller
 {
+    public function __construct(
+        private readonly UserDeletionService $userDeletionService,
+    ) {}
+
     public function index(Request $request): Response
     {
         $users = User::with(['profile'])
@@ -147,6 +152,26 @@ class UserManagementController extends Controller
         ]);
 
         return back()->with('success', "Password updated for {$user->name}. All active sessions have been revoked.");
+    }
+
+    public function destroy(Request $request, User $user): RedirectResponse
+    {
+        $name = $user->name;
+
+        try {
+            $this->userDeletionService->delete($user, $request->user());
+        } catch (\Throwable $e) {
+            return back()->with('error', $e->getMessage());
+        }
+
+        Log::warning('UserManagementController: user deleted', [
+            'admin_id'       => $request->user()->id,
+            'target_user_id' => $user->id,
+            'email'          => $user->email,
+        ]);
+
+        return redirect()->route('admin.users.index')
+            ->with('success', "{$name}'s account has been deleted.");
     }
 
     public function sendPasswordResetLink(User $user): RedirectResponse

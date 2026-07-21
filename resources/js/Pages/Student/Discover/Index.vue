@@ -82,9 +82,14 @@
                   :href="route('student.tutor.profile', t.id)"
                   class="bg-white rounded-2xl border border-gray-200 p-5 hover:border-teal-300 hover:shadow-sm transition-all">
                 <div class="flex items-start justify-between mb-3">
-                    <div class="w-12 h-12 rounded-full flex items-center justify-center text-white text-lg font-bold"
+                    <div class="w-12 h-12 rounded-full overflow-hidden flex items-center justify-center text-white text-lg font-bold"
                          style="background:#007B43;">
-                        {{ t.name.charAt(0) }}
+                        <img v-if="t.avatar_url && !avatarErrors[t.id]"
+                             :src="t.avatar_url"
+                             :alt="t.name"
+                             class="w-full h-full object-cover"
+                             @error="avatarErrors[t.id] = true" />
+                        <template v-else>{{ t.name.charAt(0) }}</template>
                     </div>
                     <span v-if="t.tier" class="px-2 py-0.5 rounded-full text-xs font-bold text-white"
                           :style="{ background: '#' + t.tier_colour }">{{ t.tier }}</span>
@@ -150,6 +155,8 @@ const props = defineProps({
     institutions: Array,
     subjects:     Array,
 })
+
+const avatarErrors = ref({})
 
 const f = ref({
     search:         props.filters?.search         ?? '',

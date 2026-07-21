@@ -10,14 +10,25 @@
                 class="bg-white rounded-2xl border border-gray-200 p-5"
             >
                 <div class="flex items-start justify-between gap-4">
-                    <div>
-                        <p class="font-semibold text-gray-800">{{ b.subject }}</p>
-                        <p class="text-gray-500 mt-0.5">
-                            {{ b.student?.name }} · {{ b.duration }}min · R{{ b.total.toFixed(2) }}
-                        </p>
-                        <p class="text-gray-600 mt-1">
-                            📅 {{ fmtDateShort(b.scheduled_at) }}
-                        </p>
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center text-white text-sm font-bold shrink-0"
+                             style="background:#007B43;">
+                            <img v-if="b.student?.avatar && !avatarErrors[b.id]"
+                                 :src="b.student.avatar"
+                                 :alt="b.student.name"
+                                 class="w-full h-full object-cover"
+                                 @error="avatarErrors[b.id] = true" />
+                            <template v-else>{{ b.student?.name?.charAt(0) }}</template>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-800">{{ b.subject }}</p>
+                            <p class="text-gray-500 mt-0.5">
+                                {{ b.student?.name }} · {{ b.duration }}min · R{{ b.total.toFixed(2) }}
+                            </p>
+                            <p class="text-gray-600 mt-1">
+                                📅 {{ fmtDateShort(b.scheduled_at) }}
+                            </p>
+                        </div>
                     </div>
                     <div class="flex gap-2 shrink-0">
                         <button
@@ -46,6 +57,7 @@ import { fmtDateShort } from '@/utils/time'
 defineProps({ requests: Array })
 
 const processing = ref(null)
+const avatarErrors = ref({})
 
 const respond = (id, action) => {
     processing.value = id

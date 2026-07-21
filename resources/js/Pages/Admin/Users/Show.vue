@@ -226,6 +226,22 @@
                         </button>
                     </form>
                 </div>
+
+                <!-- Danger zone -->
+                <div class="bg-white rounded-xl border border-red-200 p-5 space-y-2">
+                    <h3 class="font-semibold text-red-700">Danger Zone</h3>
+                    <p class="text-xs text-gray-500">
+                        Permanently delete this account. This cannot be undone. Accounts with existing
+                        bookings, reviews, reports, chat messages, or invoices can't be deleted — ban
+                        them instead.
+                    </p>
+                    <button
+                        @click="deleteAccount"
+                        class="w-full py-2 border border-red-300 text-red-600 font-semibold rounded-lg hover:bg-red-50 transition-colors"
+                    >
+                        Delete Account
+                    </button>
+                </div>
             </div>
 
             <!-- Right column: KYC applications -->
@@ -340,6 +356,11 @@ const updatePassword = () => {
 const sendResetLink = () => {
     if (! confirm(`Send a password reset email to ${props.user.email}?`)) return
     resetLinkForm.post(route('admin.users.send-reset-link', props.user.id))
+}
+
+const deleteAccount = () => {
+    if (! confirm(`Permanently delete ${props.user.name}'s account? This cannot be undone.`)) return
+    router.delete(route('admin.users.destroy', props.user.id))
 }
 
 const formatDate = (d) => d ? fmtDateOnly(d) : '—'

@@ -16,9 +16,7 @@ class UserResource extends JsonResource
             'role'                 => $this->role->value,
             'account_status'       => $this->account_status->value,
             'email_verified'       => ! is_null($this->email_verified_at),
-            'profile_photo_url'    => $this->profile_photo_path
-                ? asset('storage/' . $this->profile_photo_path)
-                : null,
+            'profile_photo_url'    => $this->profile_photo_url,
             'last_login_at'        => $this->last_login_at?->toIso8601String(),
             'created_at'           => $this->created_at->toIso8601String(),
 

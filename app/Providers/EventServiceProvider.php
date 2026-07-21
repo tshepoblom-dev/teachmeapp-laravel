@@ -14,6 +14,7 @@ use App\Events\ReportResolved;
 use App\Events\ReviewReceived;
 use App\Events\SessionEnded;
 use App\Events\SessionStarted;
+use App\Events\UserRegistered;
 use App\Listeners\DispatchTierEvaluation;
 use App\Listeners\GenerateInvoiceOnBookingCompleted;
 use App\Listeners\SendBookingAcceptedNotification;
@@ -26,6 +27,7 @@ use App\Listeners\SendReportResolvedNotification;
 use App\Listeners\SendReviewReceivedNotification;
 use App\Listeners\SendSessionEndedNotification;
 use App\Listeners\SendSessionStartedNotification;
+use App\Listeners\SendNewUserRegisteredNotification;
 use App\Listeners\SendBookingDeclinedNotification;
 use App\Listeners\WriteBookingAuditLog;
 use App\Listeners\WriteKycAuditLog;
@@ -67,6 +69,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         PayoutFailed::class => [
             SendPayoutFailedNotification::class,
+        ],
+        UserRegistered::class => [
+            SendNewUserRegisteredNotification::class,
         ],
         KycApproved::class => [
             // Covered by SendKycDecisionNotification in $subscribe below

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\AccountStatus;
+use App\Events\UserRegistered;
 use App\Models\AuditLog;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -43,6 +44,8 @@ class AuthService
 
             // Send email verification
             $user->sendEmailVerificationNotification();
+
+            event(new UserRegistered($user));
 
             AuditLog::create([
                 'user_id'     => $user->id,

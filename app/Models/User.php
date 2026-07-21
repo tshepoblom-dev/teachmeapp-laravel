@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\AccountStatus;
 use App\Enums\UserRole;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -55,6 +57,20 @@ class User extends Authenticatable implements MustVerifyEmail
             'consent_ip' => 'string',
             'consent_user_agent' => 'string',
         ];
+    }
+
+    // ─── Accessors ───────────────────────────────────────────────────────────
+
+    /**
+     * Public URL for the user's avatar. Referenced by BookingResource,
+     * ChatMessageResource, etc. so tutors and students can see each other's
+     * photo outside of their own profile pages.
+     */
+    protected function profilePhotoUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->profile_photo_path ? Storage::disk('public')->url($this->profile_photo_path) : null,
+        );
     }
 
     // ─── Role helpers ────────────────────────────────────────────────────────
